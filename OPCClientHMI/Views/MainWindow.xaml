@@ -19,7 +19,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Button Content="Connect to OPC Server" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="Close connect with OPC Server" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Close connect with OPC Server" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click_1" />
         <TextBox Name="test" HorizontalAlignment="Left" Margin="0,39,0,0" Grid.Row="3" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="390"/>
     </Grid>
 </Window>

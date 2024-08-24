@@ -62,6 +62,15 @@ namespace OPCClientHMI.Model.OPCCommunication
 
         }
 
+        public static void Session_Close()
+        {
+            _session.Close();
+            if(!_session.Connected)
+            {
+                MessageBox.Show("Rozłączono sesję z serwerem");
+            }
+        }
+
         //Utrzymanie sesji
         private static void Session_KeepAlive(ISession session, KeepAliveEventArgs e)
         {
