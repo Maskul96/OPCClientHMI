@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using Opc.Ua.Client;
+using Opc.Ua.Configuration;
+using Opc.Ua;
+using OPCClientHMI.Model.OPCCommunication;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +23,17 @@ namespace OPCClientHMI
         public MainWindow()
         {
             InitializeComponent();
+            _mainwindow = this;
         }
+
+        public static MainWindow _mainwindow;
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await CommunicationWithOPCServer.Init("opc.tcp://192.168.2.1:4840").ConfigureAwait(false);
+            
+        }
+
+        
     }
 }

@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Model\DataBase\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 
