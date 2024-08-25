@@ -13,6 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="M2MqttDotnetCore" Version="1.1.0" />
     <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Client" Version="1.5.374.78" />
     <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Client.ComplexTypes" Version="1.5.374.78" />
     <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Configuration" Version="1.5.374.78" />
@@ -21,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Model\DataBase\" />
+    <Folder Include="OPCUA_MQTTGateway\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 
