@@ -5,21 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OPCClientHMI"
         mc:Ignorable="d"
-        Title="OPCClientHMI" Height="400" Width="800">
+        Title="OPCClientHMI" Height="400" Width="828" Closing="MainWindow_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="73*" />
+            <ColumnDefinition Width="727*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="63*" />
+            <RowDefinition Height="187*" />
+            <RowDefinition Height="88*" />
         </Grid.RowDefinitions>
-        <Button Content="Connect to OPC Server" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="Close connect with OPC Server" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click_1" />
-        <TextBox Name="test" HorizontalAlignment="Left" Margin="0,39,0,0" Grid.Row="3" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="390"/>
+        <Button Content="Close connect with OPC Server" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Click="Button_Click_DisconnectFromOPCServer" Grid.Column="1" Margin="533,35,0,0" Height="20" Width="167" />
+        <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,39,0,0" Background="Gray" Opacity="0.2"/>
+        <TextBox x:Name="test" HorizontalAlignment="Center" Margin="0,45,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Komunikaty" VerticalAlignment="Top" Width="707" Grid.Column="1" Height="28"/>
+        <Button Content="Connect to OPC Server" HorizontalAlignment="Left" Margin="576,1,0,0"  VerticalAlignment="Top" Click="Button_Click_ConnectToOPCServer"  Height="20" Width="124" Grid.Column="1" Grid.Row="1"/>
+        <DockPanel/>
+        <TextBox x:Name ="ServerOPCURI" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Podaj adres serwera OPC" VerticalAlignment="Center" Width="495" Height="23"/>
+        <ListView x:Name="ReadDatalistView" Grid.Column="1" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="NodeID" Width="100" DisplayMemberBinding="{Binding NodeID}"/>
+                    <GridViewColumn Header="AttributeID" Width="200" DisplayMemberBinding="{Binding AttributeID}"/>
+                    <GridViewColumn Header="Value" Width="200" DisplayMemberBinding="{Binding Value}"/>
+                    <GridViewColumn Header="TimeStamp" Width="250" DisplayMemberBinding="{Binding TimeStamp}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="ReadDataFromOPC" Content="ReadData" HorizontalAlignment="Left" Margin="10,63,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click_ReadDataFromOPC"/>
     </Grid>
 </Window>

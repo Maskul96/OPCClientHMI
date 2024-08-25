@@ -24,19 +24,29 @@ namespace OPCClientHMI
         {
             InitializeComponent();
             _mainwindow = this;
+            ServerOPCURI.Text = "opc.tcp://192.168.2.1:4840"; //tycmzasowe wrzucenie adresu na stałe
         }
 
         public static MainWindow _mainwindow;
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click_ConnectToOPCServer(object sender, RoutedEventArgs e)
         {
             await CommunicationWithOPCServer.Init("opc.tcp://192.168.2.1:4840").ConfigureAwait(false);
             
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Click_DisconnectFromOPCServer(object sender, RoutedEventArgs e)
         {
             CommunicationWithOPCServer.Session_Close();
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CommunicationWithOPCServer.Session_Close();
+        }
+
+        private void Button_Click_ReadDataFromOPC(object sender, RoutedEventArgs e)
+        {
+            CommunicationWithOPCServer.ReadData();
         }
     }
 }
