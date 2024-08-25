@@ -14,7 +14,7 @@ namespace OPCClientHMI.Model.OPCCommunication
     {
         static SessionReconnectHandler? _sessionreconnectHandler;
         static Session? _session;
-        public string? ServerIPAddress { get;  private set; }
+        public string? ServerIPAddress { get; private set; }
         public MainWindow obj;
 
         //przekazanie obiektów z MainWindow do wnętrza klasy poprzez konstruktor
@@ -22,8 +22,8 @@ namespace OPCClientHMI.Model.OPCCommunication
         {
             this.obj = obj;
         }
-        
-        public static async Task Init(string ServerIPAddress="")
+        //Inicjalizacja połączenia z serwerem OPC
+        public static async Task Init(string ServerIPAddress = "")
         {
             //Przygotowanie instacji opc klienta
             ApplicationInstance application = new ApplicationInstance();
@@ -40,14 +40,21 @@ namespace OPCClientHMI.Model.OPCCommunication
             var endpointConfiguration = EndpointConfiguration.Create(_configuration);
             var endpoint = new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration);
             //Utworzenie sesji metodą asynchroniczną Create -> program będzie czekał aż dana metoda się wykona i dopiero wtedy będzie wykonywał kolejne instrukcje
-            _session = await Session.Create(
-                _configuration,
-                endpoint,
-                true,
-                _configuration.ApplicationName,
-                60000,
-                null,
-                null);
+            try
+            {
+                _session = await Session.Create(
+                                _configuration,
+                                endpoint,
+                                true,
+                                _configuration.ApplicationName,
+                                60000,
+                                null,
+                                null);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             if (_session.Connected)
             {
                 MessageBox.Show("Połączono z serwerem");
@@ -56,25 +63,39 @@ namespace OPCClientHMI.Model.OPCCommunication
             {
                 MessageBox.Show("Brak połączenia");
             }
+
             MainWindow._mainwindow.test.Text = _session.MessageContext.NamespaceUris.ToString();
             _session.KeepAlive += Session_KeepAlive;
             _sessionreconnectHandler = new SessionReconnectHandler(true, 10 * 1000);
-
         }
-
+        //Zmaknięcie sesji
         public static void Session_Close()
         {
-            _session.Close();
-            if(!_session.Connected)
+            try
             {
-                MessageBox.Show("Rozłączono sesję z serwerem");
+                if (_session.Connected)
+                {
+                    _session.Close();
+                    if (!_session.Connected)
+                    {
+                        MessageBox.Show("Rozłączono sesję z serwerem");
+                    }
+                }
+                else if (!_session.Connected)
+                {
+                    MessageBox.Show("Komunikacja z serwerem już jest rozłączona");
+                }
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
         }
 
         //Utrzymanie sesji
         private static void Session_KeepAlive(ISession session, KeepAliveEventArgs e)
         {
-            MainWindow._mainwindow.test.Text = e.Status.ToString();
             if (ServiceResult.IsBad(e.Status))
             {
                 _sessionreconnectHandler.BeginReconnect(_session, 1000, Server_ReconnectComplete);
@@ -95,7 +116,7 @@ namespace OPCClientHMI.Model.OPCCommunication
                 }
             }
         }
-
+        //Akceptacja certyfikatów połączenia
         private static void CertificateValidator_CertificateValidation(CertificateValidator sender, CertificateValidationEventArgs e)
         {
             e.Accept = true;
