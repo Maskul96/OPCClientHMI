@@ -31,7 +31,14 @@ namespace OPCClientHMI
 
         private async void Button_Click_ConnectToOPCServer(object sender, RoutedEventArgs e)
         {
-            await CommunicationWithOPCServer.Init("opc.tcp://192.168.2.1:4840").ConfigureAwait(false);
+            if (!CommunicationWithOPCServer.connectedonce)
+            {
+                await CommunicationWithOPCServer.Init("opc.tcp://192.168.2.1:4840").ConfigureAwait(false);
+            }
+            else
+            {
+                MessageBox.Show("Połączenie jest już ustanowione");
+            }
             
         }
         private void Button_Click_DisconnectFromOPCServer(object sender, RoutedEventArgs e)

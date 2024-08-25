@@ -7,6 +7,7 @@ using Opc.Ua.Configuration;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace OPCClientHMI.Model.OPCCommunication
 {
@@ -15,6 +16,7 @@ namespace OPCClientHMI.Model.OPCCommunication
     {
         static SessionReconnectHandler? _sessionreconnectHandler;
         static Session? _session;
+        public static bool connectedonce { get; private set; }
         public string? ServerIPAddress { get; private set; }
         public MainWindow obj;
 
@@ -51,6 +53,7 @@ namespace OPCClientHMI.Model.OPCCommunication
                                 60000,
                                 null,
                                 null);
+
             }
             catch(Exception ex)
             {
@@ -64,12 +67,17 @@ namespace OPCClientHMI.Model.OPCCommunication
             {
                 MessageBox.Show("Brak połączenia");
             }
-
-            MainWindow._mainwindow.test.Text = _session.MessageContext.NamespaceUris.ToString();
+            IfSessionConnectedComplete();
             _session.KeepAlive += Session_KeepAlive;
             _sessionreconnectHandler = new SessionReconnectHandler(true, 10 * 1000);
         }
 
+        public static void IfSessionConnectedComplete()
+        {
+            if (_session != null & !connectedonce) connectedonce = true;
+        }
+
+        //Odczyt danych
         public static void ReadData()
         {
             try
@@ -202,11 +210,13 @@ namespace OPCClientHMI.Model.OPCCommunication
             // Pobranie referencji z serwera
             ReferenceDescriptionCollection references = Browse(_session, nodesToBrowse, false);
             //Uzupełnienie potencjalnego treeview 
-            for (int ii = 0; ii < references.Count; ii++)
-            {
-                //ReferenceDescription target = references[ii];
-            }
+            //for (int ii = 0; ii < references.Count; ii++)
+            //{
+            //    ReferenceDescription target = references[ii];
+            //}
             return references;
+
+            
         }
 
         // Pobranie adresu przestrzeni i zwrócenie znalezionej referencji
