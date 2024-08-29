@@ -34,5 +34,6 @@
         </ListView>
         <Button x:Name="ReadDataFromOPC" Content="ReadData" HorizontalAlignment="Center" Margin="0,63,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Button_Click_ReadDataFromOPC" Height="20" Width="55"/>
         <Button Content="Publich mqtt" HorizontalAlignment="Center"  VerticalAlignment="Center"  Height="20" Width="124" Grid.Column="1" Click="Button_Click"/>
+        <Button Grid.Column="1" Content="Subscribe" HorizontalAlignment="Left" Margin="87,16,0,0" VerticalAlignment="Top" Height="30" Width="79" Click="Button_Click_1"/>
     </Grid>
 </Window>

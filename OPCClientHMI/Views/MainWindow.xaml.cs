@@ -28,13 +28,33 @@ namespace OPCClientHMI
             InitializeComponent();
             _mainwindow = this;
             ServerOPCURI.Text = "opc.tcp://192.168.2.1:4840"; //tycmzasowe wrzucenie adresu na stałe
-
+            StartLoop(); //WPF działa na głównym wątku interfejsu użytkownika (UI thread), który nie powinien być blokowany przez długotrwałe operacje.
         }
 
+        private async void StartLoop()
+        {
+            while (true)
+            {
+                await Task.Run(() => YourFunction());  // Wywołanie funkcji w tle
+                await Task.Delay(1000);  // Czekaj 1 sekundę (1000 ms) przed kolejnym wywołaniem
+            }
+        }
+        private void YourFunction()
+        {
+            // Twoja funkcja do wykonania
+            Console.WriteLine("Funkcja jest wykonywana.");
+            MQTTClient.SubscribeTopic();
+        }
         public static MainWindow _mainwindow;
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MQTTClient.PublishData();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MQTTClient.SubscribeTopic();
         }
 
         private async void Button_Click_ConnectToOPCServer(object sender, RoutedEventArgs e)
@@ -62,7 +82,6 @@ namespace OPCClientHMI
         {
             CommunicationWithOPCServer.ReadData();
         }
-
 
     }
 }
