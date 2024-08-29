@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OPCClientHMI.OPCUA_MQTTGateway;
+using HiveMQtt.Client;
+using HiveMQtt.Client.Options;
 
 namespace OPCClientHMI
 {
@@ -25,9 +28,14 @@ namespace OPCClientHMI
             InitializeComponent();
             _mainwindow = this;
             ServerOPCURI.Text = "opc.tcp://192.168.2.1:4840"; //tycmzasowe wrzucenie adresu na stałe
+
         }
 
         public static MainWindow _mainwindow;
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MQTTClient.PublishData();
+        }
 
         private async void Button_Click_ConnectToOPCServer(object sender, RoutedEventArgs e)
         {
@@ -39,7 +47,6 @@ namespace OPCClientHMI
             {
                 MessageBox.Show("Połączenie jest już ustanowione");
             }
-            
         }
         private void Button_Click_DisconnectFromOPCServer(object sender, RoutedEventArgs e)
         {
@@ -55,5 +62,7 @@ namespace OPCClientHMI
         {
             CommunicationWithOPCServer.ReadData();
         }
+
+
     }
 }

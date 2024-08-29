@@ -55,7 +55,7 @@ namespace OPCClientHMI.Model.OPCCommunication
                                 null);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
@@ -108,34 +108,33 @@ namespace OPCClientHMI.Model.OPCCommunication
                 MainWindow._mainwindow.ReadDatalistView.ItemsSource = values;
                 MessageBox.Show($"nodesToRead: {readHeader.Timestamp}, m_value: {m_value} ");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message );
+                MessageBox.Show(ex.Message);
             }
         }
 
         //Zmaknięcie sesji
         public static void Session_Close()
         {
-            try
+            if (_session!=null)
             {
-                if (_session.Connected)
+                try
                 {
                     _session.Close();
                     if (!_session.Connected)
                     {
                         MessageBox.Show("Rozłączono sesję z serwerem");
                     }
+
+
                 }
-                else if (!_session.Connected)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Komunikacja z serwerem już jest rozłączona");
+                    MessageBox.Show(ex.ToString());
                 }
             }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+
 
         }
 
@@ -216,7 +215,7 @@ namespace OPCClientHMI.Model.OPCCommunication
             //}
             return references;
 
-            
+
         }
 
         // Pobranie adresu przestrzeni i zwrócenie znalezionej referencji
