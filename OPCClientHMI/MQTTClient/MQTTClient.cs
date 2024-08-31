@@ -1,6 +1,7 @@
 ﻿
 
 using HiveMQtt.Client;
+using HiveMQtt.Client.Events;
 using HiveMQtt.Client.Options;
 using HiveMQtt.MQTT5.ReasonCodes;
 using HiveMQtt.MQTT5.Types;
@@ -69,6 +70,7 @@ namespace OPCClientHMI.OPCUA_MQTTGateway
                                 "{\"interference\": \"1029384\"}");
             var result = await client.PublishAsync("tests/ssss/111", msg, QualityOfService.ExactlyOnceDelivery).ConfigureAwait(false);
             var result1 = await client.PublishAsync("tests/ssss/222", msg, QualityOfService.ExactlyOnceDelivery).ConfigureAwait(false);
+            //Więcej opcji publikowania w dokumentacji: https://hivemq.github.io/hivemq-mqtt-client-dotnet/docs/publishing
 
             Console.WriteLine(result);
             Console.WriteLine(result1);
@@ -117,8 +119,33 @@ namespace OPCClientHMI.OPCUA_MQTTGateway
             };
 
             var subscriberesult = await client.SubscribeAsync("tests/1", QualityOfService.ExactlyOnceDelivery).ConfigureAwait(false);
-            //MessageBox.Show(subscriberesult.ToString());
-            //MessageBox.Show($"Received {MessageCount} msgs/sec");
+            //Więcej opcji subskrypcji w dokumentaacji https://hivemq.github.io/hivemq-mqtt-client-dotnet/docs/subscribing
+
+            //Z DOKUMENTACJI PER SUBSCRIPTION CALLBACK WITH "WITHSUBSCRIPTION" - pozwalajace uzyc Topic Filtra, ktory pozwala w rozny sposób obsłużyć różne tematy, pod które sie podpinami subskrypcją
+            #region przykład z dokumentacji
+            //public SubscribeOptionsBuilder WithSubscription(TopicFilter topicFilter, EventHandler<OnMessageReceivedEventArgs>? handler = null)
+            //var builder = new SubscribeOptionsBuilder();
+            //var options = builder.WithSubscription(
+            //        new TopicFilter("test/topic", QualityOfService.AtLeastOnceDelivery),
+            //        (sender, e) =>
+            //        {
+            //            Console.WriteLine($"Message received on topic {e.Topic}: {e.Message}");
+            //        })
+            //    .Build();
+
+            //Alternatywnie message handler niezaleznie zdefiniowany anie za pomocą funkcji lambda:
+            //            private static void MessageHandler(object? sender, OnMessageReceivedEventArgs eventArgs)
+            //            {
+            //                Console.WriteLine("Message Received: {}", eventArgs.PublishMessage.PayloadAsString)
+            //}
+
+            //            var builder = new SubscribeOptionsBuilder();
+            //            var options = builder.WithSubscription(
+            //                    new TopicFilter("test/topic", QualityOfService.AtLeastOnceDelivery),
+            //                    MessageHandler)
+            //                .Build();
+            #endregion
+
         }
     }
 }
