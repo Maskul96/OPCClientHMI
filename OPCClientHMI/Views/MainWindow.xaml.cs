@@ -28,7 +28,8 @@ namespace OPCClientHMI
             InitializeComponent();
             _mainwindow = this;
             ServerOPCURI.Text = "opc.tcp://192.168.2.1:4840"; //tycmzasowe wrzucenie adresu na stałe
-            StartLoop(); //WPF działa na głównym wątku interfejsu użytkownika (UI thread), który nie powinien być blokowany przez długotrwałe operacje.
+            //StartLoop(); //WPF działa na głównym wątku interfejsu użytkownika (UI thread), który nie powinien być blokowany przez długotrwałe operacje.
+            Gateway.Connect();
         }
 
         private async void StartLoop()
